@@ -255,14 +255,6 @@
   <source src="https://cdn.pixabay.com/audio/2022/10/16/audio_fdf679db7c.mp3" type="audio/mpeg">
   <source src="https://cdn.pixabay.com/audio/2023/03/15/audio_7985f02de0.mp3" type="audio/mpeg">
 </audio>
-
-<!-- Music start screen -->
-<div id="music-start">
-  <div style="font-size:60px">✨👼✨</div>
-  <button id="music-start-btn" onclick="startOverlay()">TAP TO START</button>
-  <p>Click to start your God vs Devil battle!</p>
-</div>
-
 <!-- Music controls -->
 <div id="music-controls">
   <button class="music-btn" onclick="toggleMusic()" id="music-toggle-btn">🔊</button>
@@ -493,14 +485,9 @@ const music = document.getElementById('bg-music');
 let musicPlaying = false;
 
 function startOverlay() {
-  document.getElementById('music-start').style.display = 'none';
   music.volume = 0.4;
-  music.play().then(() => {
-    musicPlaying = true;
-    logAdmin('🎵 Music started');
-  }).catch(() => {
-    logAdmin('⚠️ Music blocked by browser');
-  });
+  music.play().catch(() => {});
+  musicPlaying = true;
 }
 
 function toggleMusic() {
@@ -524,6 +511,12 @@ function setVolume(val) {
 updateBar();
 connectWS();
 logAdmin('🎮 Overlay ready!');
-</script>
-</body>
-</html>
+
+// Auto-start
+music.volume = 0.4;
+music.play().catch(() => {});
+musicPlaying = true;
+
+// Remove start screen if it exists
+const startScreen = document.getElementById('music-start');
+if (startScreen) startScreen.remove();
